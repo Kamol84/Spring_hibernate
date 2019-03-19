@@ -21,7 +21,6 @@ public class PersonController {
     public String form(Model model){
         model.addAttribute("person", new Person());
         return "person/form";
-
     }
 
     @PostMapping("/form")

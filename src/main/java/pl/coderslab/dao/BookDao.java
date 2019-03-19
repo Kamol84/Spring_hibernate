@@ -26,13 +26,10 @@ public class BookDao {
         }
     }
 
-
-    public List<Book> readAll() {
-        Query query = entityManager.createQuery("SELECT book FROM Book book");
-        List<Book> bookList = query.getResultList();
-        return bookList;
+    public List<Book> findAll() {
+        Query query = entityManager.createQuery("SELECT book FROM Book book order by book.title");
+        return query.getResultList();
     }
-
 
     public List<Book> getRatingList(int rating){
         Query query = entityManager.createQuery("SELECT book FROM Book book where rating >:rating");

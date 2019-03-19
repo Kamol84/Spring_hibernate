@@ -27,10 +27,9 @@ public class AuthorDao {
     }
 
 
-    public List<Author> readAll() {
-        Query query = entityManager.createQuery("SELECT author FROM Author author");
-        List<Author> authorsList = query.getResultList();
-        return authorsList;
+    public List<Author> findAll() {
+        Query query = entityManager.createQuery("SELECT author FROM Author author order by author.lastName");
+        return query.getResultList();
     }
 
 
@@ -52,6 +51,4 @@ public class AuthorDao {
     private void update(Author entity) {
         entityManager.merge(entity);
     }
-
-
 }
