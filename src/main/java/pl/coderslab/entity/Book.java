@@ -36,7 +36,7 @@ public class Book {
                 ", publisher=" + publisher +
                 ", description='" + description + '\'' +
                 ",author " + authorStringBuilder.toString() +
-                '}';
+                "}<br>";
     }
 
     public List<Author> getAuthors() {

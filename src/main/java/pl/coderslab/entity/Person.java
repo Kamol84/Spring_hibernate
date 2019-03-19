@@ -3,7 +3,7 @@ package pl.coderslab.entity;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "persons")
+@Table(name = "people")
 public class Person {
 
 
@@ -36,7 +36,7 @@ public class Person {
                 ", password='" + password + '\'' +
                 ", email='" + email + '\'' +
                 ", personDetails=" + personDetails.getFirstName() + personDetails.getLastName() + personDetails.getCity() +
-                '}';
+                "}<br>";
     }
 
     public Long getId() {

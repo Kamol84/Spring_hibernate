@@ -34,6 +34,13 @@ public class BookDao {
     }
 
 
+    public List<Book> getRatingList(int rating){
+        Query query = entityManager.createQuery("SELECT book FROM Book book where rating >:rating");
+        query.setParameter("rating", rating);
+        List<Book> booksByRating = query.getResultList();
+        return booksByRating;
+    }
+
     public Book findById(Long id) {
         return entityManager.find(Book.class, id);
     }
@@ -51,6 +58,4 @@ public class BookDao {
     private void update(Book entity) {
         entityManager.merge(entity);
     }
-
-
 }

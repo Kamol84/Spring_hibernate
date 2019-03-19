@@ -30,11 +30,29 @@ public class BookController {
         author.setLastName("Currie");
         authorDao.save(author);
 
+        Author author2 = new Author();
+        author2.setFirstName("Jan");
+        author2.setLastName("Kowalski");
+        authorDao.save(author2);
+
+
         Book book = new Book();
         book.getAuthors().add(author);
         book.setTitle("Odysey One");
         book.setRating(6);
         bookDao.save(book);
+
+        Book book2 = new Book();
+        book2.getAuthors().add(author);
+        book2.setTitle("Kot Ciapek");
+        book2.setRating(4);
+        bookDao.save(book2);
+
+        Book book3 = new Book();
+        book3.getAuthors().add(author2);
+        book3.setTitle("Pies Cipek");
+        book3.setRating(9);
+        bookDao.save(book3);
     }
 
 
@@ -43,6 +61,19 @@ public class BookController {
     @ResponseBody
     public String getBookById(@PathVariable Long bookId) {
         return bookDao.findById(bookId).toString();
+    }
+
+    @GetMapping("/allBooks")
+    @ResponseBody
+    public String allBooks(){
+        return  bookDao.readAll().toString();
+    }
+
+
+    @GetMapping("/raiting/{rating}")
+    @ResponseBody
+    public String getBookByRating(@PathVariable int rating){
+        return bookDao.getRatingList(rating).toString();
     }
 
 

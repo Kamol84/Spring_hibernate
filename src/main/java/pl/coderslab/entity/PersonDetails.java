@@ -4,7 +4,7 @@ package pl.coderslab.entity;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "personDetails")
+@Table(name = "peopleDetails")
 public class PersonDetails {
 
 
