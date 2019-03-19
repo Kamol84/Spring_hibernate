@@ -2,9 +2,7 @@ package pl.coderslab.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import pl.coderslab.model.Student;
 
 import java.util.ArrayList;
@@ -48,6 +46,12 @@ public class StudentController {
         return "/student/form";
     }
 
+
+    @PostMapping("/form")
+    @ResponseBody
+    public String form(@ModelAttribute Student student){
+        return student.toString();
+    }
 
 
 
