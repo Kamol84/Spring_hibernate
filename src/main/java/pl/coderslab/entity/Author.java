@@ -14,6 +14,9 @@ public class Author {
     private String firstName;
     private String lastName;
 
+    @Transient
+    private String fullName;
+
     @ManyToMany
     private List<Book> books = new ArrayList<>();
 
@@ -36,6 +39,10 @@ public class Author {
                 ", lastName='" + lastName + '\'' +
                 '}';
 
+    }
+
+    public String getFullName() {
+        return firstName + " " + lastName;
     }
 
     public Long getId() {

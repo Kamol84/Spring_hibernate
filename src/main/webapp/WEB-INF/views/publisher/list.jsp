@@ -5,7 +5,7 @@
     <title>List</title>
 </head>
 <body>
-    <h2>Publisher List</h2>
+    <h2>Publishers List</h2>
     <a href="${pageContext.request.contextPath}/publisher/form">Add new</a>
 
     <ul>

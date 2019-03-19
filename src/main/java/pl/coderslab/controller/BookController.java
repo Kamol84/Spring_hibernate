@@ -28,56 +28,55 @@ public class BookController {
     PublisherDao publisherDao;
 
     @GetMapping("/form")
-    public String form(Model model){
+    public String form(Model model) {
         model.addAttribute("book", new Book());
         return "book/form";
     }
 
     @PostMapping("/form")
-    public String form(@ModelAttribute Book book, HttpServletRequest request){
+    public String form(@ModelAttribute Book book, HttpServletRequest request) {
         bookDao.save(book);
-        return "redirect:"+request.getContextPath()+"/book/list";
+        return "redirect:" + request.getContextPath() + "/book/list";
     }
 
     @GetMapping("/list")
-    public String list(Model model){
+    public String list(Model model) {
         model.addAttribute("books", bookDao.findAll());
         return "/book/list";
     }
 
-    @GetMapping("/edit/{bookId}")
-    public String edit(Model model, @PathVariable Long bookId) {
-        model.addAttribute("book", bookDao.findById(bookId));
+    @GetMapping("/edit/{id}")
+    public String edit(Model model, @PathVariable Long id) {
+        model.addAttribute("book", bookDao.findById(id));
         return "book/form";
     }
 
     @PostMapping("/edit/{id}")
-    public String edit(@ModelAttribute Book book, @PathVariable Long id, HttpServletRequest request){
+    public String edit(@ModelAttribute Book book, @PathVariable Long id, HttpServletRequest request) {
         bookDao.save(book);
-        return "redirect:"+request.getContextPath()+"/book/list";
+        return "redirect:" + request.getContextPath() + "/book/list";
     }
 
     @GetMapping("/delete/{id}")
-    public String delete(Model model,@PathVariable Long id){
+    public String delete(Model model, @PathVariable Long id) {
         model.addAttribute("book", bookDao.findById(id));
         return "/book/delete";
     }
 
     @GetMapping("delete/confirm/{id}")
-    public String confirmDelete(HttpServletRequest request, @PathVariable Long id){
+    public String confirmDelete(HttpServletRequest request, @PathVariable Long id) {
         bookDao.delete(bookDao.findById(id));
-        return "redirect:"+request.getContextPath()+"/book/list";
+        return "redirect:" + request.getContextPath() + "/book/list";
     }
 
 
-
     @ModelAttribute("publishers")
-    public List<Publisher> publisherList(){
+    public List<Publisher> publisherList() {
         return publisherDao.findAll();
     }
 
     @ModelAttribute("authors")
-    public List<Author> authorList(){
-       return authorDao.findAll();
+    public List<Author> authorList() {
+        return authorDao.findAll();
     }
 }

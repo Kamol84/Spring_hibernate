@@ -14,16 +14,10 @@ public class Publisher {
     private Long id;
     private String name;
 
-
     @OneToMany(mappedBy ="publisher")
     private List<Book> books = new ArrayList<>();
 
-
-
-
-    public Publisher() {
-    }
-
+    public Publisher() { }
 
     @Override
     public String toString() {
