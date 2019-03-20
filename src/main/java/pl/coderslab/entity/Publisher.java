@@ -1,6 +1,10 @@
 package pl.coderslab.entity;
 
 
+import org.hibernate.validator.constraints.NotBlank;
+import org.hibernate.validator.constraints.pl.NIP;
+import org.hibernate.validator.constraints.pl.REGON;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -12,7 +16,15 @@ public class Publisher {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @NotBlank
     private String name;
+
+    @NIP
+    private String nip;
+
+    @REGON
+    private String regon;
 
     @OneToMany(mappedBy ="publisher")
     private List<Book> books = new ArrayList<>();

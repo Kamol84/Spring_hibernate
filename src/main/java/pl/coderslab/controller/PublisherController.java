@@ -9,6 +9,9 @@ import pl.coderslab.dao.PublisherDao;
 import pl.coderslab.entity.Publisher;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.ConstraintViolation;
+import javax.validation.Validator;
+import java.util.Set;
 
 @Controller
 @RequestMapping("/publisher")
@@ -17,6 +20,9 @@ public class PublisherController {
     @Autowired
     PublisherDao publisherDao;
 
+    @Autowired
+    Validator validator;
+
     @GetMapping("/form")
     public String form(Model moderl){
         moderl.addAttribute("publisher", new Publisher());
@@ -24,9 +30,8 @@ public class PublisherController {
     }
 
     @PostMapping("/form")
-    public String form(@ModelAttribute Publisher publisher, HttpServletRequest request){
-        publisherDao.save(publisher);
-        return "redirect:"+request.getContextPath()+"/publisher/list";
+    public String form(@ModelAttribute Publisher publisher, HttpServletRequest request, Model model){
+        return validatePublisher(publisher, request, model);
     }
 
     @GetMapping("/list")
@@ -42,9 +47,8 @@ public class PublisherController {
     }
 
     @PostMapping("/edit/{id}")
-    public String edit(@ModelAttribute Publisher publisher, HttpServletRequest request, @PathVariable Long id) {
-        publisherDao.save(publisher);
-        return "redirect:" + request.getContextPath() + "/publisher/list";
+    public String edit(@ModelAttribute Publisher publisher, HttpServletRequest request, @PathVariable Long id, Model model) {
+        return validatePublisher(publisher, request, model);
     }
 
     @GetMapping("/delete/{id}")
@@ -53,4 +57,14 @@ public class PublisherController {
         return "redirect:" + request.getContextPath() + "/publisher/list";
     }
 
+    private String validatePublisher(@ModelAttribute Publisher publisher, HttpServletRequest request, Model model) {
+        Set<ConstraintViolation<Publisher>> violations = validator.validate(publisher);
+        if (!violations.isEmpty()) {
+            model.addAttribute("publisher", publisher);
+            model.addAttribute("errors", violations);
+            return "publisher/form";
+        }
+        publisherDao.save(publisher);
+        return "redirect:" + request.getContextPath() + "/publisher/list";
+    }
 }

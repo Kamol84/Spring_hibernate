@@ -1,6 +1,12 @@
 package pl.coderslab.entity;
 
+import org.hibernate.validator.constraints.NotEmpty;
+
 import javax.persistence.*;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,14 +16,23 @@ public class Book {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Size(min = 5)
     private String title;
+
+    @Min(1)
+    @Max(10)
     private int rating;
 
+    @NotEmpty
     @ManyToMany(fetch = FetchType.EAGER)
     private List<Author> authors = new ArrayList<>();
 
+    @NotNull
     @ManyToOne
     private Publisher publisher;
+
+    @Size(max = 600)
     @Column(columnDefinition = "Text")
     private String description;
 

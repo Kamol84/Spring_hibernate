@@ -8,6 +8,9 @@ import pl.coderslab.dao.AuthorDao;
 import pl.coderslab.entity.Author;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.ConstraintViolation;
+import javax.validation.Validator;
+import java.util.Set;
 
 @Controller
 @RequestMapping("/author")
@@ -15,6 +18,9 @@ public class AuthorController {
 
     @Autowired
     AuthorDao authorDao;
+
+    @Autowired
+    Validator validator;
 
     @GetMapping("/list")
     public String list(Model model) {
@@ -29,9 +35,8 @@ public class AuthorController {
     }
 
     @PostMapping("/form")
-    public String form(@ModelAttribute Author author, HttpServletRequest request) {
-        authorDao.save(author);
-        return "redirect:" + request.getContextPath() + "/author/list";
+    public String form(@ModelAttribute Author author, HttpServletRequest request, Model model) {
+        return validateAuthor(author, request, model);
     }
 
     @GetMapping("/edit/{id}")
@@ -41,9 +46,8 @@ public class AuthorController {
     }
 
     @PostMapping("/edit/{id}")
-    public String edit(@ModelAttribute Author author, HttpServletRequest request, @PathVariable Long id) {
-        authorDao.save(author);
-        return "redirect:" + request.getContextPath() + "/author/list";
+    public String edit(@ModelAttribute Author author, HttpServletRequest request, @PathVariable Long id, Model model) {
+        return validateAuthor(author, request, model);
     }
 
     @GetMapping("/delete/{id}")
@@ -52,5 +56,14 @@ public class AuthorController {
         return "redirect:" + request.getContextPath() + "/author/list";
     }
 
-
+    private String validateAuthor(@ModelAttribute Author author, HttpServletRequest request, Model model) {
+        Set<ConstraintViolation<Author>> violations = validator.validate(author);
+        if (!violations.isEmpty()) {
+            model.addAttribute("author", author);
+            model.addAttribute("errors", violations);
+            return "author/form";
+        }
+        authorDao.save(author);
+        return "redirect:" + request.getContextPath() + "/author/list";
+    }
 }

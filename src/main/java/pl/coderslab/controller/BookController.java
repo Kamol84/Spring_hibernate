@@ -12,7 +12,10 @@ import pl.coderslab.entity.Book;
 import pl.coderslab.entity.Publisher;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.ConstraintViolation;
+import javax.validation.Validator;
 import java.util.List;
+import java.util.Set;
 
 @Controller
 @RequestMapping("/book")
@@ -27,6 +30,9 @@ public class BookController {
     @Autowired
     PublisherDao publisherDao;
 
+    @Autowired
+    Validator validator;
+
     @GetMapping("/form")
     public String form(Model model) {
         model.addAttribute("book", new Book());
@@ -34,9 +40,8 @@ public class BookController {
     }
 
     @PostMapping("/form")
-    public String form(@ModelAttribute Book book, HttpServletRequest request) {
-        bookDao.save(book);
-        return "redirect:" + request.getContextPath() + "/book/list";
+    public String form(@ModelAttribute Book book, HttpServletRequest request, Model model) {
+        return validateBook(book, request, model);
     }
 
     @GetMapping("/list")
@@ -52,9 +57,8 @@ public class BookController {
     }
 
     @PostMapping("/edit/{id}")
-    public String edit(@ModelAttribute Book book, @PathVariable Long id, HttpServletRequest request) {
-        bookDao.save(book);
-        return "redirect:" + request.getContextPath() + "/book/list";
+    public String edit(@ModelAttribute Book book, @PathVariable Long id, HttpServletRequest request, Model model) {
+        return validateBook(book, request, model);
     }
 
     @GetMapping("/delete/{id}")
@@ -78,5 +82,16 @@ public class BookController {
     @ModelAttribute("authors")
     public List<Author> authorList() {
         return authorDao.findAll();
+    }
+
+    private String validateBook(@ModelAttribute Book book, HttpServletRequest request, Model model) {
+        Set<ConstraintViolation<Book>> violations = validator.validate(book);
+        if (!violations.isEmpty()) {
+            model.addAttribute("book", book);
+            model.addAttribute("errors", violations);
+            return "book/form";
+        }
+        bookDao.save(book);
+        return "redirect:" + request.getContextPath() + "/book/list";
     }
 }
