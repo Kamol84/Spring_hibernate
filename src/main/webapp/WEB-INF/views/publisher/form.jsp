@@ -11,8 +11,8 @@
 
 <form:form modelAttribute="publisher" method="post">
     <form:input path="name" placeholder="Name"/>
-    <%--<form:input path="nip" placeholder="NIP"/>--%>
-    <%--<form:input path="regon" placeholder="REGON"/>--%>
+    <form:input path="nip" placeholder="NIP"/>
+    <form:input path="regon" placeholder="REGON"/>
 
     <input type="submit">
 </form:form>

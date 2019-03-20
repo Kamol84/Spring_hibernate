@@ -54,4 +54,20 @@ public class Publisher {
     public void setName(String name) {
         this.name = name;
     }
+
+    public String getNip() {
+        return nip;
+    }
+
+    public void setNip(String nip) {
+        this.nip = nip;
+    }
+
+    public String getRegon() {
+        return regon;
+    }
+
+    public void setRegon(String regon) {
+        this.regon = regon;
+    }
 }
