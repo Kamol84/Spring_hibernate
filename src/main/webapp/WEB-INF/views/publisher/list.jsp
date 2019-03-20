@@ -11,7 +11,8 @@
     <ul>
         <c:forEach items="${publishers}" var="publisher">
             <li>
-                ${publisher.name}
+                ${publisher.name} <a href="${pageContext.request.contextPath}/publisher/edit/${publisher.id}">Edit</a>
+                    <a href="${pageContext.request.contextPath}/publisher/delete/${publisher.id}">Delete</a>
             </li>
         </c:forEach>
     </ul>

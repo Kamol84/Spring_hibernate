@@ -4,10 +4,7 @@ package pl.coderslab.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import pl.coderslab.dao.PublisherDao;
 import pl.coderslab.entity.Publisher;
 
@@ -36,6 +33,24 @@ public class PublisherController {
     public String list(Model model){
         model.addAttribute("publishers", publisherDao.findAll());
         return "publisher/list";
+    }
+
+    @GetMapping("/edit/{id}")
+    public String edit(Model model, @PathVariable Long id) {
+        model.addAttribute("publisher", publisherDao.findById(id));
+        return "publisher/form";
+    }
+
+    @PostMapping("/edit/{id}")
+    public String edit(@ModelAttribute Publisher publisher, HttpServletRequest request, @PathVariable Long id) {
+        publisherDao.save(publisher);
+        return "redirect:" + request.getContextPath() + "/publisher/list";
+    }
+
+    @GetMapping("/delete/{id}")
+    public String delete(@PathVariable Long id, HttpServletRequest request){
+        publisherDao.delete(publisherDao.findById(id));
+        return "redirect:" + request.getContextPath() + "/publisher/list";
     }
 
 }
