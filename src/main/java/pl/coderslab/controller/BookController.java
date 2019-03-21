@@ -65,12 +65,18 @@ public class BookController {
 
     @GetMapping("/list")
     public String list(Model model, HttpServletRequest request) {
+        boolean proposition = Boolean.parseBoolean(request.getParameter("pro"));
         String catId = request.getParameter("catid");
-        if(catId != null){
-            model.addAttribute("books", bookRepository.findAllByCategoryId(Long.parseLong(catId)));
+        String title = request.getParameter("title");
+
+        if (catId != null) {
+            model.addAttribute("books", bookRepository.findAllByPropositionAndCategoryId(proposition, Long.parseLong(catId)));
+        } else if (title != null){
+            model.addAttribute("books", bookRepository.findAllByPropositionAndTitleLike(proposition,"%" + title + "%"));
         } else {
             model.addAttribute("books", bookDao.findAll());
         }
+
         return "/book/list";
     }
 
@@ -92,7 +98,7 @@ public class BookController {
     }
 
     @ModelAttribute("categories")
-    public List<Category> categoryList(){
+    public List<Category> categoryList() {
         return categoryRepository.findAll();
     }
 

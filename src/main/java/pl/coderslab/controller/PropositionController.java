@@ -65,8 +65,9 @@ public class PropositionController {
     @GetMapping("/list")
     public String list(Model model, HttpServletRequest request) {
         String catId = request.getParameter("catid");
+        boolean proposition = Boolean.parseBoolean(request.getParameter("pro"));
         if(catId != null){
-            model.addAttribute("books", bookRepository.findAllByCategoryId(Long.parseLong(catId)));
+            model.addAttribute("books", bookRepository.findAllByPropositionAndCategoryId(proposition, Long.parseLong(catId)));
         } else {
             model.addAttribute("books", bookDao.findAllProposition());
         }

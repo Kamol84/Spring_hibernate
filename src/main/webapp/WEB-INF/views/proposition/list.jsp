@@ -12,7 +12,7 @@ Categories:
 <a href="${pageContext.request.contextPath}/proposition/list">All</a>
 
 <c:forEach items="${categories}" var="category">
-    <a href="${pageContext.request.contextPath}/proposition/list?catid=${category.id}">
+    <a href="${pageContext.request.contextPath}/proposition/list?pro=true&catid=${category.id}">
             ${category.name}</a>
 </c:forEach>
 

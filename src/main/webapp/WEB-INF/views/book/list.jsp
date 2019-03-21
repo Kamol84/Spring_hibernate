@@ -9,9 +9,14 @@ Categories:
 <a href="${pageContext.request.contextPath}/book/list">All</a>
 
 <c:forEach items="${categories}" var="category">
-<a href="${pageContext.request.contextPath}/book/list?catid=${category.id}">
+<a href="${pageContext.request.contextPath}/book/list?pro=false&catid=${category.id}">
     ${category.name}</a>
 </c:forEach>
+
+<form method="get">
+    <input type="search" name="title" placeholder="Book title">
+    <input type="submit" value="search">
+</form>
 
 <ul>
     <c:forEach items="${books}" var="book">

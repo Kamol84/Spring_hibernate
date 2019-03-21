@@ -16,6 +16,9 @@
     </form:select>
     <form:select path="publisher" items="${publishers}"
                  itemValue="id" itemLabel="name"/>
+    <form:select path="category.id" items="${categories}"
+                 itemLabel="name" itemValue="id"/>
+    <form:errors path="category" element="div"/>
     <form:textarea path="description" placeholder="Description"/>
     <form:errors path="description" element="div"/>
     <input type="submit" value="Save">
