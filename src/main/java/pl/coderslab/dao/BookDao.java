@@ -27,7 +27,12 @@ public class BookDao {
     }
 
     public List<Book> findAll() {
-        Query query = entityManager.createQuery("SELECT book FROM Book book order by book.title");
+        Query query = entityManager.createQuery("SELECT book FROM Book book where book.proposition = FALSE order by book.title");
+        return query.getResultList();
+    }
+
+    public List<Book> findAllProposition() {
+        Query query = entityManager.createQuery("SELECT book FROM Book book where book.proposition = TRUE order by book.title");
         return query.getResultList();
     }
 

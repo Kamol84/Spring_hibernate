@@ -12,19 +12,29 @@
 
 <form:form modelAttribute="author" method="post">
     <form:input path="firstName" placeholder="Name"/>
+    <form:errors path="firstName" element="div"/>
     <form:input path="lastName" placeholder="Surname"/>
+    <form:errors path="lastName" element="div"/>
     <form:input path="pesel" placeholder="PESEL"/>
+    <form:errors path="pesel" element="div"/>
     <form:input path="email" placeholder="eMail"/>
+    <form:errors path="email" element="div"/>
+    <form:input path="yearOfBirth" placeholder="RRRR-MM-DD" value="${author.yearOfBirth}"/>
+    <form:errors path="yearOfBirth" element="div"/>
     <input type="submit" value="Save">
 </form:form>
-<c:if test="${not empty errors}">
-    <ul>
-        <c:forEach items="${errors}" var="error">
-            <li>
-                    ${error.propertyPath}: ${error.message}
-            </li>
-        </c:forEach>
-    </ul>
-</c:if>
+
+
+
+
+<%--<c:if test="${not empty errors}">--%>
+    <%--<ul>--%>
+        <%--<c:forEach items="${errors}" var="error">--%>
+            <%--<li>--%>
+                    <%--${error.propertyPath}: ${error.message}--%>
+            <%--</li>--%>
+        <%--</c:forEach>--%>
+    <%--</ul>--%>
+<%--</c:if>--%>
 </body>
 </html>

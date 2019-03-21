@@ -3,14 +3,13 @@ package pl.coderslab.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import pl.coderslab.dao.AuthorDao;
 import pl.coderslab.entity.Author;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.validation.ConstraintViolation;
-import javax.validation.Validator;
-import java.util.Set;
+import javax.validation.Valid;
 
 @Controller
 @RequestMapping("/author")
@@ -19,8 +18,6 @@ public class AuthorController {
     @Autowired
     AuthorDao authorDao;
 
-    @Autowired
-    Validator validator;
 
     @GetMapping("/list")
     public String list(Model model) {
@@ -35,8 +32,12 @@ public class AuthorController {
     }
 
     @PostMapping("/form")
-    public String form(@ModelAttribute Author author, HttpServletRequest request, Model model) {
-        return validateAuthor(author, request, model);
+    public String form(@Valid Author author, BindingResult authorError, HttpServletRequest request) {
+        if(authorError.hasErrors()){
+            return "author/form";
+        }
+        authorDao.save(author);
+        return "redirect:" + request.getContextPath() + "/author/list";
     }
 
     @GetMapping("/edit/{id}")
@@ -46,24 +47,17 @@ public class AuthorController {
     }
 
     @PostMapping("/edit/{id}")
-    public String edit(@ModelAttribute Author author, HttpServletRequest request, @PathVariable Long id, Model model) {
-        return validateAuthor(author, request, model);
-    }
-
-    @GetMapping("/delete/{id}")
-    public String delete(@PathVariable Long id, HttpServletRequest request){
-        authorDao.delete(authorDao.findById(id));
-        return "redirect:" + request.getContextPath() + "/author/list";
-    }
-
-    private String validateAuthor(@ModelAttribute Author author, HttpServletRequest request, Model model) {
-        Set<ConstraintViolation<Author>> violations = validator.validate(author);
-        if (!violations.isEmpty()) {
-            model.addAttribute("author", author);
-            model.addAttribute("errors", violations);
+    public String edit(@Valid Author author, HttpServletRequest request, BindingResult authorError, @PathVariable String id) {
+        if(authorError.hasErrors()){
             return "author/form";
         }
         authorDao.save(author);
+        return "redirect:" + request.getContextPath() + "/author/list";
+    }
+
+        @GetMapping("/delete/{id}")
+    public String delete(@PathVariable Long id, HttpServletRequest request){
+        authorDao.delete(authorDao.findById(id));
         return "redirect:" + request.getContextPath() + "/author/list";
     }
 }

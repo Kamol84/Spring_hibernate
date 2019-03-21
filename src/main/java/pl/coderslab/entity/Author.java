@@ -3,8 +3,10 @@ package pl.coderslab.entity;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.pl.PESEL;
+import pl.coderslab.validator.IsAdult;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,6 +29,9 @@ public class Author {
 
     @Email
     private String email;
+
+    @IsAdult(18)
+    private LocalDate yearOfBirth;
 
     @Transient
     private String fullName;
@@ -97,5 +102,13 @@ public class Author {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public LocalDate getYearOfBirth() {
+        return yearOfBirth;
+    }
+
+    public void setYearOfBirth(LocalDate yearOfBirth) {
+        this.yearOfBirth = yearOfBirth;
     }
 }

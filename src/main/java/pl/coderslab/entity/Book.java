@@ -1,6 +1,7 @@
 package pl.coderslab.entity;
 
 import org.hibernate.validator.constraints.NotEmpty;
+import pl.coderslab.validationsGroups.AdvanceValidation;
 
 import javax.persistence.*;
 import javax.validation.constraints.Max;
@@ -20,21 +21,23 @@ public class Book {
     @Size(min = 5)
     private String title;
 
-    @Min(1)
-    @Max(10)
+    @Min(value = 1, groups = AdvanceValidation.class)
+    @Max(value = 10, groups = AdvanceValidation.class)
     private int rating;
 
-    @NotEmpty
+    @NotEmpty(groups = AdvanceValidation.class)
     @ManyToMany(fetch = FetchType.EAGER)
     private List<Author> authors = new ArrayList<>();
 
-    @NotNull
+    @NotNull(groups = AdvanceValidation.class)
     @ManyToOne
     private Publisher publisher;
 
     @Size(max = 600)
     @Column(columnDefinition = "Text")
     private String description;
+
+    private boolean proposition;
 
     public Book() {
 
@@ -103,5 +106,11 @@ public class Book {
         this.description = description;
     }
 
+    public boolean isProposition() {
+        return proposition;
+    }
 
+    public void setProposition(boolean proposition) {
+        this.proposition = proposition;
+    }
 }
