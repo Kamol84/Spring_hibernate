@@ -92,6 +92,12 @@ public class BookController {
         return "redirect:" + request.getContextPath() + "/book/list";
     }
 
+    @GetMapping("/reset/{setRating}")
+    @ResponseBody
+    public void reset(@PathVariable int setRating){
+        bookRepository.resetRating(setRating);
+    }
+
     @ModelAttribute("publishers")
     public List<Publisher> publisherList() {
         return publisherDao.findAll();

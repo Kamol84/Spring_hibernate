@@ -9,8 +9,8 @@ Categories:
 <a href="${pageContext.request.contextPath}/book/list">All</a>
 
 <c:forEach items="${categories}" var="category">
-<a href="${pageContext.request.contextPath}/book/list?pro=false&catid=${category.id}">
-    ${category.name}</a>
+    <a href="${pageContext.request.contextPath}/book/list?pro=false&catid=${category.id}">
+            ${category.name}</a>
 </c:forEach>
 
 <form method="get">
@@ -21,10 +21,19 @@ Categories:
 <ul>
     <c:forEach items="${books}" var="book">
         <li>
-            <h2>${book.title}</h2>- <a href="${pageContext.request.contextPath}/book/edit/${book.id}">Edit</a>
-            <a href="${pageContext.request.contextPath}/book/delete/${book.id}">Delete</a>
-            <publisher>publisher: ${book.publisher.name}</publisher>
-            <publisher>category: ${book.category.name}</publisher>
+            <h2>${book.title}</h2>
+            <div style="width:15%">
+                <a href="${pageContext.request.contextPath}/book/edit/${book.id}">Edit</a>
+                <a href="${pageContext.request.contextPath}/book/delete/${book.id}">Delete</a>
+                <hr/>
+            </div>
+
+            <div style="width:15%">
+                <publisher>publisher: ${book.publisher.name}</publisher>
+                <publisher>category: ${book.category.name}</publisher>
+                <publisher>rating: ${book.rating}</publisher>
+            </div>
+            <hr/>
 
 
         </li>
