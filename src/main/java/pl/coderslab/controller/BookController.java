@@ -11,7 +11,10 @@ import pl.coderslab.dao.BookDao;
 import pl.coderslab.dao.PublisherDao;
 import pl.coderslab.entity.Author;
 import pl.coderslab.entity.Book;
+import pl.coderslab.entity.Category;
 import pl.coderslab.entity.Publisher;
+import pl.coderslab.repository.BookRepository;
+import pl.coderslab.repository.CategoryRepository;
 import pl.coderslab.validationsGroups.AdvanceValidation;
 
 import javax.servlet.http.HttpServletRequest;
@@ -27,10 +30,16 @@ public class BookController {
     BookDao bookDao;
 
     @Autowired
+    BookRepository bookRepository;
+
+    @Autowired
     AuthorDao authorDao;
 
     @Autowired
     PublisherDao publisherDao;
+
+    @Autowired
+    CategoryRepository categoryRepository;
 
     @GetMapping("/form")
     public String form(Model model) {
@@ -55,8 +64,13 @@ public class BookController {
     }
 
     @GetMapping("/list")
-    public String list(Model model) {
-        model.addAttribute("books", bookDao.findAll());
+    public String list(Model model, HttpServletRequest request) {
+        String catId = request.getParameter("catid");
+        if(catId != null){
+            model.addAttribute("books", bookRepository.findAllByCategoryId(Long.parseLong(catId)));
+        } else {
+            model.addAttribute("books", bookDao.findAll());
+        }
         return "/book/list";
     }
 
@@ -75,6 +89,11 @@ public class BookController {
     @ModelAttribute("publishers")
     public List<Publisher> publisherList() {
         return publisherDao.findAll();
+    }
+
+    @ModelAttribute("categories")
+    public List<Category> categoryList(){
+        return categoryRepository.findAll();
     }
 
     @ModelAttribute("authors")

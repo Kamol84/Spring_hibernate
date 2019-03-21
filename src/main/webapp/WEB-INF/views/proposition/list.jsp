@@ -7,6 +7,15 @@
 <body>
 <h2>Proposition List</h2>
 <a href="${pageContext.request.contextPath}/proposition/form">Add new</a>
+<hr/>
+Categories:
+<a href="${pageContext.request.contextPath}/proposition/list">All</a>
+
+<c:forEach items="${categories}" var="category">
+    <a href="${pageContext.request.contextPath}/proposition/list?catid=${category.id}">
+            ${category.name}</a>
+</c:forEach>
+
 
 <ul>
     <c:forEach items="${books}" var="book">

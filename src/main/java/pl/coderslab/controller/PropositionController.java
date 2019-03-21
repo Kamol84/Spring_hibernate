@@ -11,7 +11,10 @@ import pl.coderslab.dao.BookDao;
 import pl.coderslab.dao.PublisherDao;
 import pl.coderslab.entity.Author;
 import pl.coderslab.entity.Book;
+import pl.coderslab.entity.Category;
 import pl.coderslab.entity.Publisher;
+import pl.coderslab.repository.BookRepository;
+import pl.coderslab.repository.CategoryRepository;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
@@ -26,7 +29,13 @@ public class PropositionController {
     BookDao bookDao;
 
     @Autowired
+    BookRepository bookRepository;
+
+    @Autowired
     AuthorDao authorDao;
+
+    @Autowired
+    CategoryRepository categoryRepository;
 
     @Autowired
     PublisherDao publisherDao;
@@ -54,8 +63,13 @@ public class PropositionController {
     }
 
     @GetMapping("/list")
-    public String list(Model model) {
-        model.addAttribute("books", bookDao.findAllProposition());
+    public String list(Model model, HttpServletRequest request) {
+        String catId = request.getParameter("catid");
+        if(catId != null){
+            model.addAttribute("books", bookRepository.findAllByCategoryId(Long.parseLong(catId)));
+        } else {
+            model.addAttribute("books", bookDao.findAllProposition());
+        }
         return "/proposition/list";
     }
 
@@ -68,6 +82,11 @@ public class PropositionController {
     @ModelAttribute("publishers")
     public List<Publisher> publisherList() {
         return publisherDao.findAll();
+    }
+
+    @ModelAttribute("categories")
+    public List<Category> categoryList(){
+        return categoryRepository.findAll();
     }
 
     @ModelAttribute("authors")

@@ -29,6 +29,9 @@ public class Book {
     @ManyToMany(fetch = FetchType.EAGER)
     private List<Author> authors = new ArrayList<>();
 
+    @ManyToOne
+    private Category category;
+
     @NotNull(groups = AdvanceValidation.class)
     @ManyToOne
     private Publisher publisher;
@@ -112,5 +115,13 @@ public class Book {
 
     public void setProposition(boolean proposition) {
         this.proposition = proposition;
+    }
+
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
     }
 }
